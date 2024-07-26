@@ -27,6 +27,23 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+    
+    // data collection take 
+    const menuCollection = client.db("resturentDb").collection("menu");
+    const reviewCollection = client.db("resturentDb").collection("reviews");
+     
+    //  menu collection 
+    app.get('/menu', async(req,res) =>{
+        const result = await menuCollection.find().toArray();
+        res.send(result);
+    })
+    // review collection 
+    app.get('/reviews', async(req,res)=>{
+       const result = await reviewCollection.find().toArray();
+       res.send(result)
+    })
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -40,9 +57,9 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('boss is sitting')
+    res.send('Resturent food is ready')
 })
 
 app.listen(port, () => {
-    console.log(`Bistro boss is sitting on port ${port}`)
+    console.log(`Resturent food is sitting on port ${port}`)
 })
