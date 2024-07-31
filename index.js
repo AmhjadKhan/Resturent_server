@@ -32,6 +32,8 @@ async function run() {
     const menuCollection = client.db("resturentDb").collection("menu");
     const reviewCollection = client.db("resturentDb").collection("reviews");
     const cartCollection = client.db("resturentDb").collection("carts");
+    const userCollection = client.db("resturentDb").collection("users");
+
      
     //  menu collection 
     app.get('/menu', async(req,res) =>{
@@ -69,6 +71,20 @@ async function run() {
       res.send(result);
     })
 
+
+    // user releted api 
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      // insert email if user doesnt exists: 
+      // you can do this many ways (1. email unique, 2. upsert 3. simple checking)
+      const query = { email: user.email }
+      const existingUser = await userCollection.findOne(query);
+      if (existingUser) {
+        return res.send({ message: 'user already exists', insertedId: null })
+      }
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
