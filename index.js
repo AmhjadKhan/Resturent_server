@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 const port = process.env.PORT || 5000;
 
 // middleWar
@@ -34,6 +36,8 @@ async function run() {
     const reviewCollection = client.db("resturentDb").collection("reviews");
     const cartCollection = client.db("resturentDb").collection("carts");
     const userCollection = client.db("resturentDb").collection("users");
+    const paymentCollection = client.db("resturentDb").collection("payments");
+
 
     // jwt access token 
     app.post('/jwt', async (req, res) => {
