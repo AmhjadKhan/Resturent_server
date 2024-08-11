@@ -219,7 +219,7 @@ async function run() {
 app.post('/create-payment-intent', async (req, res) => {
   const { price } = req.body;
   const amount = parseInt(price * 100);
-  console.log(amount, 'amount inside the intent')
+  // console.log(amount, 'amount inside the intent')
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amount,
@@ -248,7 +248,7 @@ app.post('/payments', async (req, res) => {
   const paymentResult = await paymentCollection.insertOne(payment);
 
   //  carefully delete each item from the cart
-  console.log('payment info', payment);
+  // console.log('payment info', payment);
   const query = {
     _id: {
       $in: payment.cartIds.map(id => new ObjectId(id))
